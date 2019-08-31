@@ -1,0 +1,75 @@
+version: 2
+
+shared:
+  host: &shared-host
+    steps:
+      - checkout
+      - run:
+          name: Installing GCC
+          command: 'sudo apt-get update && sudo apt-get install -y gcc g++ clang'
+      - run:
+          name: Install CMAKE
+          command: 'sudo apt-get update && sudo apt-get install -y cmake'
+      - run:
+          name: Creating Build Files
+          command: 'cmake -H. -Bbuild -DBUILD_TESTS=ON -DBUILD_UTILS=ON -DCMAKE_BUILD_TYPE=Debug'
+      - run:
+          name: Creating Binary Files
+          command: 'cmake --build build'
+      - run:
+          name: Run tests
+          command: './build/tests/tests'
+
+jobs:
+  # Host: Ubuntu 16.04 LTS
+  xenial-gcc:
+    <<: *shared-host
+    docker:
+      - image: circleci/buildpack-deps:xenial
+    environment:
+      CC: gcc
+      CXX: g++
+  xenial-clang:
+    <<: *shared-host
+    docker:
+      - image: circleci/buildpack-deps:xenial
+    environment:
+      CC: clang
+      CXX: clang++
+
+  # Host: Ubuntu 18.04 LTS
+  bionic-gcc:
+    <<: *shared-host
+    docker:
+      - image: circleci/buildpack-deps:bionic
+    environment:
+      CC: gcc
+      CXX: g++
+  bionic-clang:
+    <<: *shared-host
+    docker:
+      - image: circleci/buildpack-deps:bionic
+    environment:
+      CC: clang
+      CXX: clang++
+      
+workflows:
+  version: 2
+
+  # Build all
+  build:
+    jobs:
+      - xenial-gcc
+      - xenial-clang
+      - bionic-gcc
+      - bionic-clang
+      #- linux-armv6
+      #- linux-armv7
+      #- android-16-arm
+      #- android-16-x86
+      #- android-28-arm
+      #- android-28-arm64
+      #- android-28-x86
+      #- android-28-x86_64
+      #- windows-x86
+      #- windows-x64
