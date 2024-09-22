@@ -1,5 +1,5 @@
 # MDNSCPP
-
+[![CMake on multiple platforms](https://github.com/nachooya/mdnscpp/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/nachooya/mdnscpp/actions/workflows/cmake-multi-platform.yml)
 [![CircleCI](https://circleci.com/gh/nachooya/mdnscpp.svg?style=shield)](https://circleci.com/gh/nachooya/mdnscpp)
 [![Build Status](https://travis-ci.org/nachooya/mdnscpp.svg?branch=master)](https://travis-ci.org/nachooya/mdnscpp)
 
